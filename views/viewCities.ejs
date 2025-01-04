@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Cities</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+</head>
+<body>
+
+  <h1>Cities List</h1>
+
+  
+  <form action="/view-cities" method="GET">
+    <label for="countryId">Select Country:</label>
+    <select id="countryId" name="countryId">
+      <option value="">All Countries</option>
+      <% countries.forEach(function(country) { %>
+        <option value="<%= country.id %>" <%= selectedCountryId == country.id ? 'selected' : '' %>><%= country.name %></option>
+      <% }); %>
+    </select>
+
+    <label for="stateId">Select State:</label>
+    <select id="stateId" name="stateId">
+      <option value="">All States</option>
+      <% states.forEach(function(state) { %>
+        <option value="<%= state.id %>" <%= selectedStateId == state.id ? 'selected' : '' %>><%= state.name %></option>
+      <% }); %>
+    </select>
+
+
+    <label for="searchCityName">Search City Name:</label>
+    <input type="text" id="searchCityName" name="searchCityName" value="<%= searchCityName %>" placeholder="Enter city name" />
+
+    <button type="submit">Filter</button>
+  </form>
+
+  <br>
+
+ 
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Serial No.</th>
+        <th>City Name</th>
+        <th>State Name</th>
+        <th>Country Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% cities.forEach(function(city, index) { %>
+        <tr>
+          <td><%= index + 1 %></td> 
+          <td><%= city.name %></td>
+          <td><%= city.State.name %></td>
+          <td><%= city.State.Country.name  %></td>
+          <td>
+            <button onclick="window.location.href='/edit-city/<%= city.id %>'">Edit</button>
+            <button onclick="window.location.href='/delete-city/<%= city.id %>'">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+
+  <script>
+    
+    $('#countryId').change(function() {
+      var countryId = $(this).val();
+      if (countryId) {
+        $.get('/states/' + countryId, function(data) {
+          $('#stateId').html('<option value="">All States</option>');
+          data.forEach(function(state) {
+            $('#stateId').append('<option value="' + state.id + '">' + state.name + '</option>');
+          });
+        });
+      } else {
+        $('#stateId').html('<option value="">All States</option>');
+      }
+    });
+  </script>
+
+</body>
+</html>

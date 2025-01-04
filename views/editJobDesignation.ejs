@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Job Designation</title>
+</head>
+<body>
+  <h1>Edit Job Designation</h1>
+  <form action="/edit-job-designation/<%= jobDesignation.id %>" method="POST">
+    <label for="title">Job Title:</label>
+    <input type="text" id="title" name="title" value="<%= jobDesignation.title %>" required>
+    <br>
+    <!-- <label for="companyId">Company:</label>
+    <input type="text" id="companyId" name="companyId" value="<%= jobDesignation.Company ? jobDesignation.Company.name : 'N/A' %>" readonly>
+    <br> -->
+    <button type="submit">Update Job Designation</button>
+  </form>
+  <a href="/view-job-designations">Back to Job Designations</a>
+</body>
+</html>

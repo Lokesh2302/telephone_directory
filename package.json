@@ -1,0 +1,21 @@
+{
+  "name": "telephonedirectory",
+  "version": "1.0.0",
+  "description": "telephone directory with lots of searches and masters(dependancy of data)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Lokesh Yadav",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "nodemon": "^3.1.7",
+    "path": "^0.12.7",
+    "sequelize": "^6.37.5"
+  }
+}

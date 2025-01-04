@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View States</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery for AJAX -->
+</head>
+<body>
+  <h1>View States</h1>
+
+ 
+  <form action="/view-states" method="GET">
+    <label for="countryId">Select Country:</label>
+    <select id="countryId" name="countryId">
+      <option value="">All Countries</option>
+      <% countries.forEach(function(country) { %>
+        <option value="<%= country.id %>" <%= selectedCountryId == country.id ? 'selected' : '' %>><%= country.name %></option>
+      <% }); %>
+    </select>
+
+<br>
+    <label for="searchStateName">Search by State Name:</label>
+    <input type="text" id="searchStateName" name="searchStateName" value="<%= searchStateName || '' %>" placeholder="Enter state name">
+
+
+    <button type="submit">Filter</button>
+  </form>
+
+  <br>
+
+
+  <table border="2">
+    <thead>
+      <tr>
+        <th>Serial No.</th>
+        <th>State Name</th>
+        <th>Country Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% states.forEach(function(state, index) { %>
+        <tr>
+          <td><%= index + 1 %></td> 
+          <td><%= state.name %></td>
+          <td><%= state.Country.name  %></td>
+          <td>
+            <button onclick="window.location.href='/edit-state/<%= state.id %>'">Edit</button>
+            <button onclick="window.location.href='/delete-state/<%= state.id %>'">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+
+</body>
+</html>

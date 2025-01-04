@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit City</title>
+</head>
+<body>
+  <h1>Edit City</h1>
+  <form action="/edit-city/<%= city.id %>" method="POST">
+    <label for="name">City Name:</label>
+    <input type="text" id="name" name="name" value="<%= city.name %>" required>
+    <br>
+    <label for="state">State:</label>
+    <input type="hidden" id="stateId" name="stateId" value="<%= city.State.id %>">
+    <input type="text" id="state" name="state" value="<%= city.State.name %>" readonly>
+    <br>
+    <label for="country">Country:</label>
+    <input type="text" id="country" name="country" value="<%= city.State.Country.name %>" readonly>
+    <br>
+    <button type="submit">Update City</button>
+  </form>
+  <a href="/view-cities">Back to Cities</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Designations</title>
+</head>
+<body>
+
+  <h1> All Valid Job Designations in the Directory</h1>
+
+  <form action="/view-job-designations" method="GET">
+    <label for="searchJobDesignation">Search by JobDesignation</label>
+    <input type="text" id="searchJobDesignation" name="searchJobDesignation" placeholder="Enter job designation" value="<%= searchJobDesignation || '' %>">
+    <button type="submit">Search</button>
+  </form>
+  <br>
+  <ol>
+    <% jobDesignations.forEach(function(jobDesignation) { %>
+      <li>
+        <%= jobDesignation.title %>
+        <button onclick="window.location.href='/edit-job-designation/<%= jobDesignation.id %>'">Edit</button>
+        <button onclick="window.location.href='/edit-job-designation/<%= jobDesignation.id %>'">Delete</button>
+      </li> 
+    <% }); %>
+  </ol>
+
+  <a href="/dashboard">Back to Dashboard</a>
+
+</body>
+</html>
+
+
+
+

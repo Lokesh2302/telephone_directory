@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Country</title>
+</head>
+<body>
+  <h1>Edit Country</h1>
+  <form action="/edit-country/<%= country.id %>" method="POST">
+    <label for="name">Country Name:</label>
+    <input type="text" id="name" name="name" value="<%= country.name %>" required>
+    <br>
+    <label for="shortname">Short Name:</label>
+    <input type="text" id="shortname" name="shortname" value="<%= country.shortname %>" required>
+    <br>
+    <label for="phonecode">Phone Code:</label>
+    <input type="text" id="phonecode" name="phonecode" value="<%= country.phonecode %>" required>
+    <br>
+    <button type="submit">Update Country</button>
+  </form>
+  <a href="/view-countries">Back to Countries</a>
+</body>
+</html>

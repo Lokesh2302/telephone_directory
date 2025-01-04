@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+</head>
+<body>
+
+  <div>
+    <button  onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/view-people'"> Directory</button>
+  </div>
+
+  
+  <h1>Dashboard</h1>
+
+
+  <h2>Countries</h2>
+  <div>
+    <h3>Add Country</h3>
+    <form action="/add-country" method="POST">
+      <label for="name">Country Name:</label>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="shortname">Country Shortname (e.g., US):</label>
+      <input type="text" id="shortname" name="shortname" required><br>
+
+      <label for="phonecode"> Country Phone Code (e.g., 1 for USA):</label>
+      <input type="text" id="phonecode" name="phonecode" required><br>
+
+      <button type="submit">Add Country</button>
+    </form>
+    <button onclick="window.location.href='/view-countries'">View All Countries</button>
+  </div>
+
+  <br><br>
+
+  <h2>States</h2>
+  <div>
+    <h3>Add State</h3>
+    <form action="/add-state" method="POST">
+      <label for="countryId">Select Country:</label>
+      <select name="countryId" required>
+        <% countries.forEach(function(country) { %>
+          <option value="<%= country.id %>"><%= country.name %></option>
+        <% }); %>
+      </select><br>
+
+      <label for="name">State Name:</label>
+      <input type="text" id="name" name="name" required><br>
+
+      <button type="submit">Add State</button>
+    </form>
+    <button onclick="window.location.href='/view-states'">View States</button>
+  </div>
+
+  <br><br>
+
+ 
+  <h2>Cities</h2>
+  <div>
+    <h3>Add City</h3>
+    <form action="/add-city" method="POST">
+     
+      <label for="countryId">Select Country:</label>
+      <select name="countryId" id="countryId" required onchange="fetchStates()">
+        <% countries.forEach(function(country) { %>
+          <option value="<%= country.id %>"><%= country.name %></option>
+        <% }); %>
+      </select><br>
+
+     
+      <label for="stateId">Select State:</label>
+      <select name="stateId" id="stateId" required>
+     
+      </select><br>
+
+    
+
+
+      <label for="name">City Name:</label>
+      <input type="text" id="name" name="name" required><br>
+
+      <button type="submit">Add City</button>
+    </form>
+    
+    <button onclick="window.location.href='/view-cities'">View Cities</button>
+  </div>
+
+  <br><br>
+
+
+
+
+  <h2>Companies</h2>
+  <div>
+    <h3>Add Company</h3>
+    <form action="/add-company" method="POST">
+      <label for="name">Company Name:</label>
+      <input type="text" id="name" name="name" required><br>
+      <button type="submit">Add Company</button>
+    </form>
+    <button onclick="window.location.href='/view-companies'">View Companies</button>
+  </div>
+
+  <br><br>
+
+
+  <h2>Job Designations</h2>
+  <div>
+    <h3>Add Job Designation</h3>
+    <form action="/add-job-designation" method="POST">
+      <!-- <label for="companyId">Select Company:</label>
+      <select name="companyId" required>
+        <% companies.forEach(function(company) { %>
+          <option value="<%= company.id %>"><%= company.name %></option>
+        <% }); %>
+      </select><br> -->
+
+      <label for="title">Job Title:</label>
+      <input type="text" id="title" name="title" required><br>
+
+      <button type="submit">Add Job Designation</button>
+    </form>
+    <button onclick="window.location.href='/view-job-designations'">View Job Designations</button>
+  </div>
+
+  <br><br>
+
+
+
+
+  <h2>People</h2>
+  <div>
+    <button onclick="window.location.href='/register'">Add Person</button>
+    <button onclick="window.location.href='/view-people'">View All People</button>
+  </div>
+
+  <script>
+
+function fetchStates() {
+  const countryId = document.getElementById('countryId').value;
+
+ 
+  fetch(`/states/${countryId}`)  
+    .then(response => response.json())
+    .then(data => {
+      const stateSelect = document.getElementById('stateId');
+      stateSelect.innerHTML = ''; 
+
+  
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.text = 'Select State';
+      stateSelect.appendChild(defaultOption);
+
+    
+      data.forEach(function(state) {
+        const option = document.createElement('option');
+        option.value = state.id;
+        option.text = state.name;
+        stateSelect.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Error fetching states:', error));
+}
+
+
+
+  </script>
+
+</body>
+</html>

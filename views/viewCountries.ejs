@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Country Details</title>
+</head>
+<body>
+
+  <h1>All Countries</h1>
+
+
+  <form action="/view-countries" method="GET">
+    <label for="searchCountry">Search by Country Name:</label>
+    <input type="text" id="searchCountry" name="searchCountry" placeholder="Enter country name" value="<%= searchCountry || '' %>">
+    <button type="submit">Search</button>
+  </form>
+
+  <br>
+
+
+  <ol>
+    <% countries.forEach(function(country) { %>
+      <li>
+        <%= country.name %>
+        <button onclick="window.location.href='/edit-country/<%= country.id %>'">Edit</button>
+        <button onclick="window.location.href='/delete-country/<%= country.id %>'">Delete</button>
+      </li> 
+    <% }); %>
+  </ol>
+
+  <a href="/dashboard">Back to Dashboard</a>
+
+</body>
+</html>

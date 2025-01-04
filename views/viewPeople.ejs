@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View All People</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery for AJAX -->
+</head>
+<body>
+
+  <h1>Directory Listings</h1>
+
+
+  <form action="/view-people" method="GET">
+ 
+    <label for="searchName">Search by Name:</label>
+    <input type="text" id="searchName" name="searchName" placeholder="Enter name" value="<%= searchName || '' %>"><br>
+
+
+<label for="searchTelephone">Search by Telephone Number:</label>
+<input type="text" id="searchTelephone" name="searchTelephone" placeholder="Enter telephone number" value="<%= searchTelephone || '' %>"><br>
+
+
+    
+    <label for="searchCountry">Search by Country:</label>
+    <select id="searchCountry" name="searchCountry">
+      <option value="">Select Country</option>
+      <% countries.forEach(function(country) { %>
+        <option value="<%= country.id %>" <%= searchCountry == country.id ? 'selected' : '' %>><%= country.name %></option>
+      <% }); %>
+    </select><br>
+
+ 
+    <label for="searchState">Search by State:</label>
+    <select id="searchState" name="searchState">
+      <option value="">Select State</option>
+      <% states.forEach(function(state) { %>
+        <option value="<%= state.id %>" <%= searchState == state.id ? 'selected' : '' %>><%= state.name %></option>
+      <% }); %>
+    </select><br>
+
+  
+    <label for="searchCity">Search by City:</label>
+    <select id="searchCity" name="searchCity">
+      <option value="">Select City</option>
+      <% cities.forEach(function(city) { %>
+        <option value="<%= city.id %>" <%= searchCity == city.id ? 'selected' : '' %>><%= city.name %></option>
+      <% }); %>
+    </select><br>
+
+
+    <label for="searchCompany">Search by Company:</label>
+    <select id="searchCompany" name="searchCompany">
+      <option value="">Select Company</option>
+      <% companies.forEach(function(company) { %>
+        <option value="<%= company.id %>" <%= searchCompany == company.id ? 'selected' : '' %>><%= company.name %></option>
+      <% }); %>
+    </select><br>
+
+
+    <label for="searchJob">Search by Job Designation:</label>
+    <select id="searchJob" name="searchJob">
+      <option value="">Select Job</option>
+      <% jobDesignations.forEach(function(job) { %>
+        <option value="<%= job.id %>" <%= searchJob == job.id ? 'selected' : '' %>><%= job.title %></option>
+      <% }); %>
+    </select><br>
+
+    <button type="submit">Search</button>
+  </form>
+
+  <br>
+
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Serial No.</th>
+        <th>Name</th>
+        <th>Telephone Number</th>
+        <th>Phone Code</th>
+        <th>Country</th>
+        <th>State</th>
+        <th>City</th>
+        <th>Company</th>
+        <th>Job Designation</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(function(user, index) { %>
+        <tr>
+          <td><%=  index + 1 %></td>
+          <td><%=  user.name %></td>
+          <td><%=  user.telephone_number %></td>
+          <td><%=  user.Country.phonecode %></td>
+          <td><%=  user.Country.name %></td>
+          <td><%=  user.State.name  %></td>
+          <td><%=  user.City.name  %></td>
+          <td><%=  user.Company.name  %></td>
+          <td><%=  user.JobDesignation.title  %></td>
+          <td>
+            <button onclick="window.location.href='/edit-person/<%= user.id %>'">Edit</button>
+            <button onclick="window.location.href='/delete-person/<%= user.id %>'">Delete</button>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <button onclick="window.location.href='/view-people'">View All People</button>
+  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+  <button onclick="window.location.href='/register'">Add New Entry</button>
+  <button  onclick="window.location.href='/'">Home</button>
+  <script>
+   
+    $('#searchCountry').change(function() {
+      var countryId = $(this).val();
+      if (countryId) {
+        $.get('/states/' + countryId, function(data) {
+          $('#searchState').html('<option value="">Select State</option>');
+          data.forEach(function(state) {
+            $('#searchState').append('<option value="' + state.id + '">' + state.name + '</option>');
+          });
+          $('#searchCity').html('<option value="">Select City</option>'); // Reset city dropdown
+        });
+      } else {
+        $('#searchState').html('<option value="">Select State</option>');
+        $('#searchCity').html('<option value="">Select City</option>');
+      }
+    });
+
+    
+    $('#searchState').change(function() {
+      var stateId = $(this).val();
+      if (stateId) {
+        $.get('/cities/' + stateId, function(data) {
+          $('#searchCity').html('<option value="">Select City</option>');
+          data.forEach(function(city) {
+            $('#searchCity').append('<option value="' + city.id + '">' + city.name + '</option>');
+          });
+        });
+      } else {
+        $('#searchCity').html('<option value="">Select City</option>');
+      }
+    });
+  </script>
+
+</body>
+</html>
